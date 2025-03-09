@@ -530,6 +530,9 @@ app = dash.Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP]
 )
 
+# Add this line to expose the underlying Flask server
+server = app.server  # This is important!
+
 app.layout = html.Div(
     dbc.Container(
         [
