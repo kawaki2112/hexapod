@@ -1,6 +1,4 @@
-from ui import app
-
-server = app.server
+from ui import server as app  # Import the server as app
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run()
