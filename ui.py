@@ -525,33 +525,34 @@ def update_gait_parameters(ls, hs, st, sp, ck):
     print(para)
     return 0
 
+# Create the app instance outside the if block
+app = dash.Dash(
+    external_stylesheets=[dbc.themes.BOOTSTRAP]
+)
+
+app.layout = html.Div(
+    dbc.Container(
+        [
+            dbc.Row([
+                dbc.Col(dim_ctl_widgets, width={"size": 3, "offset": 0}, align='center'),
+                dbc.Col(
+                    html.Div(dcc.Graph(figure=fig, id='graph')),
+                    width={"size": 9, "offset": 0},
+                )
+            ], align='center', justify='center'),
+            
+            dbc.Row([
+                dcc.Tabs(id="page-tabs", value='leg-patterns', 
+                        children=[
+                            dcc.Tab(children=leg_ctl_widgets, label='Leg Pattern', value='leg-patterns'),
+                            dcc.Tab(children=fk_ctl_widgets,label='Forward Kinematics', value='FK'),
+                            dcc.Tab(children=ik_ctl_widgets,label='Inverse Kinematics', value='IK'),
+                            dcc.Tab(children=gait_widget, label='Walking Gaits', value='Walk'),
+                        ])
+            ]),
+        ]
+    )
+)
+
 if __name__ == "__main__":
-    app = dash.Dash(
-        external_stylesheets=[dbc.themes.BOOTSTRAP]
-    )
-    
-    app.layout = html.Div(
-        dbc.Container(
-            [
-                dbc.Row([
-                    dbc.Col(dim_ctl_widgets, width={"size": 3, "offset": 0}, align='center'),
-                    dbc.Col(
-                        html.Div(dcc.Graph(figure=fig, id='graph')),
-                        width={"size": 9, "offset": 0},
-                    )
-                ], align='center', justify='center'),
-                
-                dbc.Row([
-                    dcc.Tabs(id="page-tabs", value='leg-patterns', 
-                            children=[
-                                dcc.Tab(children=leg_ctl_widgets, label='Leg Pattern', value='leg-patterns'),
-                                dcc.Tab(children=fk_ctl_widgets,label='Forward Kinematics', value='FK'),
-                                dcc.Tab(children=ik_ctl_widgets,label='Inverse Kinematics', value='IK'),
-                                dcc.Tab(children=gait_widget, label='Walking Gaits', value='Walk'),
-                            ])
-                ]),
-            ]
-        )
-    )
-    
     app.run_server(debug=True)
